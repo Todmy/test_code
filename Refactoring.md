@@ -9,3 +9,12 @@ You've been asked to refactor the function `deterministicPartitionKey` in [`dpk.
 You will be graded on the exhaustiveness and quality of your unit tests, the depth of your refactor, and the level of insight into your thought process provided by the written explanation.
 
 ## Your Explanation Here
+1. I have moved constants to the upper scope since I don't want JS interpreter to create these constants each time I call `deterministicPartitionKey`
+2. I have renamed the function since the `dpk` is not the clear name of a file. While somebody will work with this code it will be hard for him/her to identify the file's purpose based on its' name
+3. I have moved the functionality that works with `crypto` and creates hash to a separate function with the name `createHash` since it would be nice to have it separately. This kind of functionality can be changed over time. Also, due to SOLID, it would be nice to separate it based on a different function responsibility
+4. At the start of execution of the `deterministicPartitionKey` I have decided to break the function execution if the `event` is empty. It will optimize the code since we don't need to pass the rest of it because we already know the answer.
+5. I have detected the two main flows:
+  - we pass to the function an `event` object (an object that contains `partitionKey`)
+  - we pass to the function a random value
+6. Based on the above point I split the flow and created `getNormalizeEventPartitionKey` function that is responsible for the normalization of the `event` object
+7. I have considered the flow with a random object as simple, so I haven't moved it to a separate function, since it can make the code more complicated
